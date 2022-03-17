@@ -1,0 +1,123 @@
+main > .container{
+    padding-top: 70px;
+}
+
+
+#navbar-icon{
+    width: 40px;
+    height: 40px;
+}
+#ASK{
+    margin-left: 60px;
+    margin-right: 90px;
+}
+.right-col{
+    padding-left: 40px;
+    padding-right: 10px;
+}
+
+.tag{
+    margin:5px;
+}
+.top-member{
+    text-decoration: none;
+    color:black;
+}
+.hot-q{
+    margin-left: 40px;
+}
+
+a:link, a:visited{
+  color: black;
+  background-color: transparent;
+  text-decoration: none;
+}
+
+
+a:hover {
+  color: red;
+  background-color: transparent;
+  text-decoration: underline;
+}
+a:active {
+  color: yellow;
+  background-color: transparent;
+  text-decoration: underline;
+}
+.guru:first-child{
+    background-color: #ffc800;
+}
+.mini-ava{
+    width: 40px;
+    margin-right: 15px;
+}
+.avatar{
+    width:135px;
+    height: 135px;
+    margin-bottom: 10px;
+}
+.main_question{
+    margin-top: 10px;
+    border: 3px black solid;
+    border-radius: 15px;
+    padding: 30px;
+    background: #77dff6;
+    margin-bottom: 40px;
+}
+.answer{
+    border: 3px black solid;
+    background: #ffc800;
+    border-radius: 15px;
+    padding: 20px;
+    margin-bottom: 40px;
+    margin-left: 25px;
+    margin-right: 25px;
+}
+.new_answer{
+
+    margin-left: 100px;
+    width: 600px;
+}
+.answ_but{
+    margin-left: 100px;
+}
+.question{
+    border: 3px black solid;
+    background: #77dff6;
+    border-radius: 15px;
+    padding: 20px;
+    margin-bottom: 40px;
+}
+.fire{
+    margin-left: 10px;
+}
+.log_in{
+
+    width: 300px;
+}
+.line_new_q{
+
+    width: 400px;
+}
+.f_login{
+
+    margin-left: 300px;
+}
+.wrong-pas{
+    width: 300px;
+}
+.new_q{
+    margin-left: 250px;
+}
+.but_log_in{
+    margin-left: 380px;
+}
+.but_log_out{
+    margin-left: 40px;
+}
+.mini_name{
+    text-decoration: none;
+}
+.mini_name:hover{
+    cursor: default;
+}

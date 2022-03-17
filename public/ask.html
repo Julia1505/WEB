@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Ask_Me</title>
+    <link rel="icon" href="../static/img/question-lg.svg">
+    <link href="../static/css/bootstrap.min.css" rel="stylesheet">
+    <link href="../static/css/my.css" rel="stylesheet">
+</head>
+<body>
+
+<header class="p-3 bg-dark text-white fixed-top">
+    <div class="container">
+        <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
+            <a href="./index.html" class="d-flex align-items-center mb-2 mb-lg-0 text-white text-decoration-none me-5">
+                <img class="bi me-2" alt="icon" width="36" height="45" src="../static/img/quest_nav.svg">
+                <span class="fs-3">Ask_me</span>
+            </a>
+            <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3 mx-5">
+                <input type="search" class="form-control bg-dark text-warning" placeholder="Search..."
+                       aria-label="Search">
+            </form>
+            <div class="align-items-end text-end">
+                <a href="./ask.html"><button  type="button" id="ASK" class="btn btn-info">ASK</button></a>
+                <img src="../static/img/kot.jpeg" alt="ava" class="mini-ava rounded ">
+                <a href="./settings.html" class="fs-5 d-inline text-white mini_name">Name</a>
+                <a href="./settings.html"><button type="button" class="btn btn-light me-3 but_log_out">Settins</button></a>
+                <a href="./login.html" ><button type="button" class="btn btn-outline-warning ">Log out</button></a>
+            </div>
+        </div>
+
+    </div>
+</header>
+
+<main>
+    <div class="container mt-4">
+        <div class="row">
+            <div class="col-9">
+                <div class="new_q">
+                    <p class="fs-2">New Question</p>
+                    <form action="/action_page.php">
+                        <div class="mb-3 mt-3">
+                            <label for="title" class="form-label">Title:</label>
+                            <input type="title" class="form-control line_new_q" id="title" placeholder="Question" name="title" maxlength="200">
+                        </div>
+                        <div class="mb-3 mt-3">
+                        <label for="text" class="form-label">Text:</label>
+                        <textarea class="form-control line_new_q " rows="5" id="text" name="text"></textarea>
+                        </div>
+                         <div class="mb-4">
+                            <label for="tags" class="form-label">Tags:</label>
+                            <input type="tags" class="form-control line_new_q" id="tags" placeholder="Tags"
+                                   name="tags">
+                        </div>
+                        <button type="submit" class="btn btn-info">ASK!!!</button>
+
+                    </form>
+
+                </div>
+            </div>
+            <div class="col-3 right-col">
+                <p class="fs-2 text-center">Popular tags!</p>
+                <div class="position-relative text-center">
+                    <a href="tag.html"><button type="button" class="btn btn-primary opacity-75 tag">Tag</button></a>
+                    <a href="tag.html" ><button type="button" class="btn btn-secondary opacity-75 tag">Tagfddfg</button></a>
+                    <a href="tag.html" ><button type="button" class="btn btn-success opacity-75 tag">Tag</button></a>
+                    <a href="tag.html" ><button type="button" class="btn btn-danger opacity-75 tag">Taggdfg</button></a>
+                    <a href="tag.html" ><button type="button" class="btn btn-warning opacity-75 tag">Tag</button></a>
+                    <a href="tag.html" ><button type="button" class="btn btn-info opacity-75 tag">Tagfgd</button></a>
+                    <a href="tag.html" ><button type="button" class="btn btn-dark opacity-75 tag"> Tag</button></a>
+                </div>
+                <hr>
+                <br>
+                <p class="fs-2 text-center">Best members</p>
+                <ol class="list-group list-group-numbered text-center order-first">
+                    <li class="guru list-group-item"><a class="top-member" href="#">First item</a></li>
+                    <li class="guru list-group-item"><a class="top-member" href="#">First item</a></li>
+                    <li class="guru list-group-item"><a class="top-member" href="#">First item</a></li>
+                    <li class="guru list-group-item"><a class="top-member" href="#">First item</a></li>
+                    <li class="guru list-group-item"><a class="top-member" href="#">First item</a></li>
+                    <li class="guru list-group-item"><a class="top-member" href="#">First item</a></li>
+                </ol>
+
+            </div>
+        </div>
+    </div>
+
+</main>
+
+<footer class="py-3 my-4">
+    <ul class="nav justify-content-center border-bottom pb-3 mb-3">
+        <li class="nav-item"><a href="./question.html" class="nav-link px-2 text-muted">Home</a></li>
+        <li class="nav-item"><a href="./ask.html" class="nav-link px-2 text-muted">Ask</a></li>
+        <li class="nav-item"><a href="./settings.html" class="nav-link px-2 text-muted">Cabinet</a></li>
+    </ul>
+    <p class="text-center text-muted">© 2022 Company, Inc</p>
+</footer>
+<script src="../static/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
