@@ -1,0 +1,20 @@
+{% extends "inc/base.html" %}
+{% load static %}
+
+{% block userblock %}
+    {% include "inc/authorized.html" %}
+{% endblock userblock %}
+
+{% block content %}
+    <p class="fs-1 text-center">{{ tag }}: </p>
+    {% for question in questions %}
+        {% include "inc/question_one.html" %}
+    {% empty %}
+        <div class=" fs-5"> Be the first! </div>
+    {% endfor %}
+
+    {% with questions as page_obj %}
+        {% include "inc/pagination.html" %}
+    {% endwith %}
+
+{% endblock content %}

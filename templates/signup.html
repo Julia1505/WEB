@@ -1,0 +1,61 @@
+{% extends "inc/base.html" %}
+{% load static %}
+
+{% block userblock %}
+    {% include "inc/unauthorized.html" %}
+{% endblock userblock %}
+
+{% block content %}
+    <div class="f_login ">
+        <p class="fs-2">Registration</p>
+        <div class="alert alert-danger wrong-pas">
+            <strong>WOW! </strong> Wrong password!
+        </div>
+        <form action="/action_page.php" class="was-validated mb-5 ">
+            <div class="mb-3 mt-3">
+                <label for="login" class="form-label">Login:</label>
+                <input type="text" maxlength="20" class="form-control log_in " autocomplete="off" id="login"
+                       placeholder="Create your login" name="login"
+                       required>
+            </div>
+            <div class="mb-3 mt-3">
+                <label for="email" class="form-label">Email:</label>
+                <input type="text" maxlength="20" class="form-control log_in " autocomplete="off" id="email"
+                       placeholder="Create your email" name="email"
+                       required>
+            </div>
+            <div class="mb-3 mt-3">
+                <label for="nickname" class="form-label">NickName:</label>
+                <input type="text" maxlength="20" class="form-control log_in " autocomplete="off"
+                       id="nickname"
+                       placeholder="Create your nickname" name="nickname"
+                       required>
+            </div>
+            <div class="mb-3">
+                <label for="pwd1" class="form-label">Password:</label>
+                <input type="password" maxlength="30" class="form-control log_in" id="pwd1"
+                       placeholder="Create your password"
+                       name="psw1"
+                       required>
+            </div>
+            <div class="mb-3">
+                <label for="pwd2" class="form-label">Repeat password:</label>
+                <input type="password" maxlength="30" class="form-control log_in" id="pwd2"
+                       placeholder="Repeat your password"
+                       name="psw2"
+                       required>
+            </div>
+            <div class="mb-4 mt-3">
+                <label for="formFileSm" class="form-label">Upload:</label>
+                <br>
+                <button type="button" class="btn btn-outline-dark "><label for="formFileSm" class="form-label">Upload
+                    your avatar &#x1F47B</label></button>
+                <input class="form-control form-control-sm log_in" id="formFileSm" type="file" style="display: none">
+
+            </div>
+
+            <button type="submit" class="btn btn-info me-3">Register!</button>
+
+        </form>
+    </div>
+{% endblock content %}

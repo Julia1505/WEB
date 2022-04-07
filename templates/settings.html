@@ -1,0 +1,46 @@
+{% extends "inc/base.html" %}
+{% load static %}
+
+{% block userblock %}
+    {% include "inc/authorized.html" %}
+{% endblock userblock %}
+
+{% block content %}
+    <div class="f_login ">
+        <p class="fs-2">Settings: Name</p>
+        <form action="/action_page.php" class=" mb-5 ">
+            <div class="mb-3 mt-3">
+                <label for="login" class="form-label">Login:</label>
+                <input type="text" maxlength="20" class="form-control log_in " autocomplete="off" id="login"
+                       name="login" value="my_login">
+            </div>
+            <div class="mb-3 mt-3">
+                <label for="email" class="form-label">Email:</label>
+                <input type="text" maxlength="20" class="form-control log_in " autocomplete="off" id="email"
+                       name="email" value="my_email">
+            </div>
+            <div class="mb-3 mt-3">
+                <label for="nickname" class="form-label">NickName:</label>
+                <input type="text" maxlength="20" class="form-control log_in " autocomplete="off"
+                       id="nickname" name="nickname" value="my_nickname">
+            </div>
+
+            <div class="mb-4 mt-3">
+                <label for="formFileSm" class="form-label">Avatar:</label>
+                <br>
+                <label for="formFileSm"><img class="avatar rounded img-thumbnail border-dark"
+                                             src="../static/img/kot.jpeg"></label>
+                <br>
+                <button type="button" class="btn btn-outline-dark mt-3"><label for="formFileSm"
+                                                                               class="form-label">Upload
+                    your avatar &#x1F47B</label></button>
+                <input class="form-control form-control-sm log_in" id="formFileSm" type="file"
+                       style="display: none">
+
+            </div>
+
+            <button type="submit" class="btn btn-warning me-3">Save</button>
+
+        </form>
+    </div>
+{% endblock content %}

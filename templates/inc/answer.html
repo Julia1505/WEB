@@ -1,0 +1,24 @@
+{% load static %}
+
+<div class="row answer ">
+    <div class="col-3 ">
+        <img class="avatar rounded img-thumbnail" src="{% static "img/kot.jpeg"%}">
+        <div class="btn-group btn-group-sm fs-5">
+{#            Rating#}
+            {{ answer.rating }}
+            <button type="button" class="btn btn-dark fire">&#128293</button>
+            <button type="button" class="btn btn-light ">&#128169</button>
+        </div>
+    </div>
+    <div class="col-9">
+{#        <a href="#" class="fs-2"><h2>{{ answer.title }}#}
+{#        </h2></a>#}
+        <div>{{ answer.content|truncatewords:40}}
+        </div>
+        <br>
+        <button type="button" class="btn btn-primary mx-5">
+            Correct
+            <input class="form-check-input mx-2" type="checkbox" name="correct"  {% if answer.is_correct == True %} checked {% endif %}>
+        </button>
+    </div>
+</div>

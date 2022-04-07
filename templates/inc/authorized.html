@@ -1,0 +1,9 @@
+{% load static %}
+
+<div class="align-items-end text-end">
+                <a href="{% url "ask" %}"><button type="button" id="ASK" class="btn btn-info">ASK</button></a>
+                <img src="{% static "img/kot.jpeg"%}" alt="ava" class="mini-ava rounded ">
+                <a href="{% url "settings"%}" class="fs-5 d-inline text-white mini_name">Name</a>
+                <a href="{% url "settings"%}"><button type="button" class="btn btn-light me-3 but_log_out">Settins</button></a>
+                <a href="{% url "login"%}" ><button type="button" class="btn btn-outline-warning ">Log out</button></a>
+            </div>
