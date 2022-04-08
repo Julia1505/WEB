@@ -4,9 +4,7 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 from app.models import *
 
-# <span class="badge bg-dark">hot</span>
-#                             <span class="badge bg-danger">crazy</span>
-#                             <span class="badge bg-primary">auf</span>
+
 
 
 tags = Tag.tags.all()
@@ -26,11 +24,11 @@ def hot(request):
     paginator = Paginator(hot_questions, 2)
     page_num = request.GET.get('page')
     questions = paginator.get_page(page_num)
-    return render(request, "hot.html", {  "tags":tags, "questions":questions, })
+    return render(request, "hot.html", {"tags":tags, "questions":questions, })
 
 def question(request, id):
-    # question = Question.new_questions.get(pk=id)
-    question = get_object_or_404(Question, pk = id)
+    question = Question.new_questions.get(pk=id)
+    # question = get_object_or_404(Question, pk = id)
     answers = Answer.answers.filter(question = question)
 
     paginator = Paginator(answers, 2)
@@ -48,17 +46,19 @@ def login(request):
 def signup(request):
     return render(request, "signup.html", { })
 
-def tag(request, tag):
-    # tag_question = Question.new_questions.filter(tag=tag)
-    tag_question = get_object_or_404(Question.new_questions.filter(tag = tag))
-    if len(tag_question) == 0:
-        raise pageNotFound
+def tag(request, slug):
+    tag_question = Tag.tags.get(tag=slug).questions.all()
+    # tag_question = get_object_or_404(Tag.tags.filter(tag=slug)).questions.all()
 
-    paginator = Paginator(tag_question, 2)
-    page_num = request.GET.get('page')
-    questions = paginator.get_page(page_num)
-
-    return render(request, "tag.html", {"questions":question})
+    # tag_question = get_object_or_404(Question.new_questions.filter(tag = tag))
+    # if len(tag_question) == 0:
+    #     raise pageNotFound
+    #
+    # paginator = Paginator(tag_question, 2)
+    # page_num = request.GET.get('page')
+    # questions = paginator.get_page(page_num)
+    return render(request, "index.html", {'slug':slug, 'questions':tag_question})
+    # return render(request, "tag.html", {"questions":questions})
 
 def settings(request):
     return render(request, "settings.html", { })

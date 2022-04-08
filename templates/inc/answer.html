@@ -2,7 +2,7 @@
 
 <div class="row answer ">
     <div class="col-3 ">
-        <img class="avatar rounded img-thumbnail" src="{% static "img/kot.jpeg"%}">
+        <img class="avatar rounded img-thumbnail" src="{{ answer.author.avatar.url}}">
         <div class="btn-group btn-group-sm fs-5">
 {#            Rating#}
             {{ answer.rating }}

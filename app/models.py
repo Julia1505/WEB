@@ -84,7 +84,7 @@ class Answer(models.Model):
     date_create = models.DateField(auto_now_add=True)
     is_correct = models.BooleanField(default=False)
     rating = models.IntegerField()
-    question = models.ForeignKey(Question, on_delete=models.CASCADE, null=True)
+    question = models.ForeignKey(Question, on_delete=models.CASCADE, null=True, related_name='answers')
 
     answers = models.Manager()
 

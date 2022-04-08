@@ -1,9 +1,9 @@
 {% load static %}
 <div class="row question ">
                     <div class="col-3 ">
-                        <img class="avatar rounded img-thumbnail" src="{% static "img/kot.jpeg" %}" alt="">
+                        <img class="avatar rounded img-thumbnail" src="{{ question.author.avatar.url }}" alt="">
                         <div class="btn-group btn-group-sm fs-5">
-                            Rating
+                            {{ question.rating }}
                             <button type="button" class="btn btn-dark fire">&#128293</button>
                             <button type="button" class="btn btn-light ">&#128169</button>
                         </div>
@@ -19,12 +19,12 @@
                         {% endif %}
                         <br>
                         <button type="button" class="btn btn-warning mx-5">
-                            Answers <span class="badge bg-danger">4</span>
+                            Answers <span class="badge bg-danger">{{ question.answers.count }}</span>
                         </button>
                         <button type="button" class="btn btn-warning ">
                             Tags:
-                            {% for tag in question.tag.entry_set.all %}
-                                <span class="badge bg-primary">tag.tag</span>
+                            {% for tag in question.tag.all %}
+                                    <span class="badge {% cycle "bg-dark" "bg-primary" "bg-danger" %}" >{{tag.tag}}</span>
                             {% endfor %}
 
                         </button>
