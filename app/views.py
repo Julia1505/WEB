@@ -3,14 +3,11 @@ from django.shortcuts import render, get_object_or_404
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 from app.models import *
+from app.utilits import *
 
 
-
-
-tags = Tag.tags.all()
 new_questions = Question.new_questions.all()
-hot_questions = Question.hot_questions.order_by('rating')
-# answers = Answer.answers.all()
+hot_questions = Question.hot_questions.all()
 users = User.users.all()
 
 
@@ -24,44 +21,39 @@ def hot(request):
     paginator = Paginator(hot_questions, 2)
     page_num = request.GET.get('page')
     questions = paginator.get_page(page_num)
-    return render(request, "hot.html", {"tags":tags, "questions":questions, })
+    return render(request, "hot.html", {"questions":questions})
 
 def question(request, id):
-    question = Question.new_questions.get(pk=id)
-    # question = get_object_or_404(Question, pk = id)
+    # question = Question.new_questions.get(pk=id)
+    question = get_object_or_404(Question, pk = id)
     answers = Answer.answers.filter(question = question)
 
     paginator = Paginator(answers, 2)
     page_num = request.GET.get('page')
     answers = paginator.get_page(page_num)
-    return render(request, "question.html", {  "question":question, "answers":answers})
+    return render(request, "question.html", {"question":question, "answers":answers})
 
 
 def ask(request):
     return render(request, "ask.html", { })
 
 def login(request):
-    return render(request, "login.html", { })
+    return render(request, "login.html", {"form_login":form_login })
 
 def signup(request):
-    return render(request, "signup.html", { })
+    return render(request, "signup.html", {"form_sign_up":form_sign_up })
 
 def tag(request, slug):
-    tag_question = Tag.tags.get(tag=slug).questions.all()
-    # tag_question = get_object_or_404(Tag.tags.filter(tag=slug)).questions.all()
+    # tag_question = Tag.tags.get(tag=slug).questions.all()  //  без 404
+    tag_questions = get_object_or_404(Tag.tags.filter(tag=slug)).questions.all()
 
-    # tag_question = get_object_or_404(Question.new_questions.filter(tag = tag))
-    # if len(tag_question) == 0:
-    #     raise pageNotFound
-    #
-    # paginator = Paginator(tag_question, 2)
-    # page_num = request.GET.get('page')
-    # questions = paginator.get_page(page_num)
-    return render(request, "index.html", {'slug':slug, 'questions':tag_question})
-    # return render(request, "tag.html", {"questions":questions})
+    paginator = Paginator(tag_questions, 2)
+    page_num = request.GET.get('page')
+    questions = paginator.get_page(page_num)
+    return render(request, "tag.html", {"questions":questions, "slug":slug})
 
 def settings(request):
-    return render(request, "settings.html", { })
+    return render(request, "settings.html", {"form_settings":form_settings })
 
 
 def pageNotFound(request, exception):

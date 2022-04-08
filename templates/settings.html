@@ -9,21 +9,16 @@
     <div class="f_login ">
         <p class="fs-2">Settings: Name</p>
         <form action="/action_page.php" class=" mb-5 ">
-            <div class="mb-3 mt-3">
-                <label for="login" class="form-label">Login:</label>
-                <input type="text" maxlength="20" class="form-control log_in " autocomplete="off" id="login"
-                       name="login" value="my_login">
-            </div>
-            <div class="mb-3 mt-3">
-                <label for="email" class="form-label">Email:</label>
-                <input type="text" maxlength="20" class="form-control log_in " autocomplete="off" id="email"
-                       name="email" value="my_email">
-            </div>
-            <div class="mb-3 mt-3">
-                <label for="nickname" class="form-label">NickName:</label>
-                <input type="text" maxlength="20" class="form-control log_in " autocomplete="off"
-                       id="nickname" name="nickname" value="my_nickname">
-            </div>
+            {% csrf_token %}
+
+            {% for form_setting in form_settings %}
+                <div class="mb-3 mt-3">
+                    <label for="{{ form_setting.for_if }}" class="form-label">{{ form_setting.Name }}:</label>
+                    <input type="text" maxlength="20" class="form-control log_in " autocomplete="off"
+                           id="{{ form_setting.for_if }}"
+                           name="{{ form_setting.for_id }}" value="{{ form_setting.value }}">
+                </div>
+            {% endfor %}
 
             <div class="mb-4 mt-3">
                 <label for="formFileSm" class="form-label">Avatar:</label>
@@ -31,9 +26,10 @@
                 <label for="formFileSm"><img class="avatar rounded img-thumbnail border-dark"
                                              src="../static/img/kot.jpeg"></label>
                 <br>
-                <button type="button" class="btn btn-outline-dark mt-3"><label for="formFileSm"
-                                                                               class="form-label">Upload
-                    your avatar &#x1F47B</label></button>
+                <button type="button" class="btn btn-outline-dark mt-3">
+                    <label for="formFileSm"
+                           class="form-label">Upload
+                        your avatar &#x1F47B</label></button>
                 <input class="form-control form-control-sm log_in" id="formFileSm" type="file"
                        style="display: none">
 

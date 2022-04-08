@@ -6,7 +6,7 @@
 {% endblock userblock %}
 
 {% block content %}
-    <p class="fs-1 text-center">{{ tag }}: </p>
+    <p class="fs-1 text-center">Tag: {{ slug }} </p>
     {% for question in questions %}
         {% include "inc/question_one.html" %}
     {% empty %}

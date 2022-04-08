@@ -12,39 +12,16 @@
             <strong>WOW! </strong> Wrong password!
         </div>
         <form action="/action_page.php" class="was-validated mb-5 ">
-            <div class="mb-3 mt-3">
-                <label for="login" class="form-label">Login:</label>
-                <input type="text" maxlength="20" class="form-control log_in " autocomplete="off" id="login"
-                       placeholder="Create your login" name="login"
-                       required>
-            </div>
-            <div class="mb-3 mt-3">
-                <label for="email" class="form-label">Email:</label>
-                <input type="text" maxlength="20" class="form-control log_in " autocomplete="off" id="email"
-                       placeholder="Create your email" name="email"
-                       required>
-            </div>
-            <div class="mb-3 mt-3">
-                <label for="nickname" class="form-label">NickName:</label>
-                <input type="text" maxlength="20" class="form-control log_in " autocomplete="off"
-                       id="nickname"
-                       placeholder="Create your nickname" name="nickname"
-                       required>
-            </div>
-            <div class="mb-3">
-                <label for="pwd1" class="form-label">Password:</label>
-                <input type="password" maxlength="30" class="form-control log_in" id="pwd1"
-                       placeholder="Create your password"
-                       name="psw1"
-                       required>
-            </div>
-            <div class="mb-3">
-                <label for="pwd2" class="form-label">Repeat password:</label>
-                <input type="password" maxlength="30" class="form-control log_in" id="pwd2"
-                       placeholder="Repeat your password"
-                       name="psw2"
-                       required>
-            </div>
+            {% csrf_token %}
+            {% for form in form_sign_up %}
+                <div class="mb-3 mt-3">
+                    <label for="{{ form.for_id }}" class="form-label">{{ form.Name }}:</label>
+                    <input type="{{ form.type }}" maxlength="20" class="form-control log_in " autocomplete="off" id="{{ form.for_id }}"
+                           placeholder="{{ form.placeholder}}" name="{{ form.name }}"
+                           required>
+                </div>
+            {% endfor %}
+
             <div class="mb-4 mt-3">
                 <label for="formFileSm" class="form-label">Upload:</label>
                 <br>

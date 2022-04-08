@@ -6,9 +6,11 @@
 {% endblock userblock %}
 
 {% block content %}
-    {% include "inc/question_one.html" %}
+    {% with 'true' as full %}
+        {% include "inc/question_one.html" %}
+    {% endwith %}
     {% for answer in answers %}
-        {% include "inc/answer.html" %}
+            {% include "inc/answer.html" %}
     {% empty %}
         <div class=" fs-5"> No one has answered yet:( </div>
     {% endfor %}

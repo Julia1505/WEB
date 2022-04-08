@@ -9,7 +9,7 @@
     <p class="fs-1 text-center">New questions <a class="fs-3 hot-q" href="{% url "hot" %}"> Hot questions</a></p>
 
     {% for question in questions %}
-        {% include "inc/question_one.html" %}
+            {% include "inc/question_one.html" %}
     {% empty %}
         <div class=" fs-5"> Be the first! </div>
     {% endfor %}

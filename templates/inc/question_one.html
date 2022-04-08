@@ -1,33 +1,33 @@
 {% load static %}
 <div class="row question ">
-                    <div class="col-3 ">
-                        <img class="avatar rounded img-thumbnail" src="{{ question.author.avatar.url }}" alt="">
-                        <div class="btn-group btn-group-sm fs-5">
-                            {{ question.rating }}
-                            <button type="button" class="btn btn-dark fire">&#128293</button>
-                            <button type="button" class="btn btn-light ">&#128169</button>
-                        </div>
-                    </div>
-                    <div class="col-9">
-                        <a href="{{ question.get_absolute_url }}" class="fs-2">
-                            <h2>{{ question.title }}</h2>
-                        </a>
-                        {% if request.path == '/' or request.path == '/hot/' %}
-                            <div>{{ question.content| linebreaks| truncatewords:40 }}</div>
-                    `   {% else %}
-                            <div>{{ question.content| linebreaks }}</div>
-                        {% endif %}
-                        <br>
-                        <button type="button" class="btn btn-warning mx-5">
-                            Answers <span class="badge bg-danger">{{ question.answers.count }}</span>
-                        </button>
-                        <button type="button" class="btn btn-warning ">
-                            Tags:
-                            {% for tag in question.tag.all %}
-                                    <span class="badge {% cycle "bg-dark" "bg-primary" "bg-danger" %}" >{{tag.tag}}</span>
-                            {% endfor %}
+    <div class="col-3 ">
+        <img class="avatar rounded img-thumbnail" src="{{ question.author.avatar.url }}" alt="">
+        <div class="btn-group btn-group-sm fs-5">
+            {{ question.rating }}
+            <button type="button" class="btn btn-dark fire">&#128293</button>
+            <button type="button" class="btn btn-light ">&#128169</button>
+        </div>
+    </div>
+    <div class="col-9">
+        <a href="{{ question.get_absolute_url }}" class="fs-2">
+            <h2>{{ question.title }}</h2>
+        </a>
+        {% if full == 'true' %}
+            <div>{{ question.content| linebreaks }}</div>
+        {% else %}
+            <div>{{ question.content| linebreaks| truncatewords:40 }}</div>
+        {% endif %}
+        <br>
+        <button type="button" class="btn btn-warning mx-5">
+            Answers <span class="badge bg-danger">{{ question.answers.count }}</span>
+        </button>
+        <button type="button" class="btn btn-warning ">
+            Tags:
+            {% for tag in question.tag.all %}
+                <span class="badge {% cycle "bg-dark" "bg-primary" "bg-danger" %}">{{ tag.tag }}</span>
+            {% endfor %}
 
-                        </button>
+        </button>
 
-                    </div>
-                </div>
+    </div>
+</div>

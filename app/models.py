@@ -32,7 +32,6 @@ class TopTagManager(models.Manager):
 
 class Tag(models.Model):
     tag = models.CharField(max_length=30)
-    # slug = models.SlugField(max_length=255, unique=True, db_index=True, verbose_name="URL")
     count = models.IntegerField(null=True)
 
     tags = models.Manager()
@@ -45,8 +44,8 @@ class Tag(models.Model):
     def __str__(self):
         return self.tag
 
-    # def get_absolute_url(self):
-    #     return reverse('tag', kwargs = {'tag':self.tag})
+    def get_absolute_url(self):
+        return reverse('tag', kwargs = {'slug':self.tag})
 
     class Meta:
         ordering = ['count', 'tag']

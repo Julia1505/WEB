@@ -42,7 +42,7 @@
                 {% get_top_tags as top_tags %}
                 <div class="position-relative text-center">
                     {% for tag in top_tags %}
-                    <a href=""><button type="button" class="btn opacity {% cycle "btn-primary" "btn-secondary" "btn-success" "btn-danger" "btn-warning" "btn-info" "btn-dark" %} opacity-75 tag"> {{ tag.tag }} </button></a>
+                    <a href="{{ tag.get_absolute_url }}"><button type="button" class="btn opacity {% cycle "btn-primary" "btn-secondary" "btn-success" "btn-danger" "btn-warning" "btn-info" "btn-dark" %} opacity-75 tag"> {{ tag.tag }} </button></a>
                     {% endfor %}
                 </div>
                 <hr>
