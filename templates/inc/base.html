@@ -51,7 +51,7 @@
                 {% get_top_users as top_users%}
                 <ol class="list-group list-group-numbered text-center order-first">
                     {% for user in top_users %}
-                    <li class="guru list-group-item"><a class="top-member" href="#">{{ user.nickname }}</a></li>
+                    <li class="guru list-group-item"><a class="top-member" href="#">{{ user.user.username }}</a></li>
                     {% endfor %}
                 </ol>
 

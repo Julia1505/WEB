@@ -1,34 +1,55 @@
 from django.db import models
-
+from django.contrib.auth.models import User
 # Create your models here.
 from django.urls import reverse
 
-class TopUserManager(models.Manager):
+
+class TopProfileManager(models.Manager):
     def get_queryset(self):
         return super().get_queryset().order_by('rating')[:5]
 
-class User(models.Model):
-    nickname = models.CharField(max_length=30)
-    email = models.EmailField()
-    password = models.CharField(max_length=50)
+
+class Profile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='profile')
     avatar = models.ImageField(upload_to="avatars/")
-    register_date = models.DateField(auto_now_add=True)
     rating = models.IntegerField()
 
     users = models.Manager()
-    top_users = TopUserManager()
-
-
+    top_users = TopProfileManager()
 
     def __str__(self):
-        return self.nickname
+        return self.user.username
 
     class Meta:
-        ordering = ['nickname']
+        ordering = ['rating']
+
+# class TopUserManager(models.Manager):
+#     def get_queryset(self):
+#         return super().get_queryset().order_by('rating')[:5]
+#
+# class User(models.Model):
+#     nickname = models.CharField(max_length=30)
+#     email = models.EmailField()
+#     password = models.CharField(max_length=50)
+#     avatar = models.ImageField(upload_to="avatars/")
+#     register_date = models.DateField(auto_now_add=True)
+#     rating = models.IntegerField()
+#
+#     users = models.Manager()
+#     top_users = TopUserManager()
+#
+#
+#
+#     def __str__(self):
+#         return self.nickname
+#
+#     class Meta:
+#         ordering = ['nickname']
 
 class TopTagManager(models.Manager):
     def get_queryset(self):
         return super().get_queryset().order_by('count')[:7]
+
 
 class Tag(models.Model):
     tag = models.CharField(max_length=30)
@@ -45,14 +66,16 @@ class Tag(models.Model):
         return self.tag
 
     def get_absolute_url(self):
-        return reverse('tag', kwargs = {'slug':self.tag})
+        return reverse('tag', kwargs={'slug': self.tag})
 
     class Meta:
         ordering = ['count', 'tag']
 
+
 class HotQustionManager(models.Manager):
     def get_queryset(self):
         return super().get_queryset().order_by('rating')
+
 
 class Question(models.Model):
     title = models.CharField(max_length=255)
@@ -66,16 +89,16 @@ class Question(models.Model):
     hot_questions = HotQustionManager()
 
     def get_absolute_url(self):
-        return reverse('question', kwargs={'id':self.pk})
+        return reverse('question', kwargs={'id': self.pk})
 
     def __str__(self):
         return self.title
 
     # def save(self, *args, **kwargs):
 
-
     class Meta:
         ordering = ["create_date"]
+
 
 class Answer(models.Model):
     content = models.TextField()

@@ -3,10 +3,10 @@ from django.contrib import admin
 # Register your models here.
 from app.models import *
 
-class UserAdmin(admin.ModelAdmin):
-    list_display = ('id', 'nickname', 'register_date', 'rating')
-    list_display_links = ('id', 'nickname')
-    search_fields = ('id', 'nickname')
+# class ProfileAdmin(admin.ModelAdmin):
+#     list_display = ('id', 'nickname', 'register_date', 'rating')
+#     list_display_links = ('id', 'nickname')
+#     search_fields = ('id', 'nickname')
 
 class QuestionAdmin(admin.ModelAdmin):
     list_display = ('id', 'title', 'author', 'create_date', 'rating')
@@ -21,11 +21,12 @@ class AnswerAdmin(admin.ModelAdmin):
 
 class TagAdmin(admin.ModelAdmin):
     list_display = ('id', 'tag', 'count')
+    list_display_links = ('id', 'tag')
     list_filter = ('tag', 'count')
     search_fields = ('id', 'tag')
     # prepopulated_fields = {'slug':('tag',)}
 
-admin.site.register(User, UserAdmin)
+admin.site.register(Profile)
 admin.site.register(Question, QuestionAdmin)
 admin.site.register(Answer, AnswerAdmin)
 admin.site.register(Tag, TagAdmin)

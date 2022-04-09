@@ -8,7 +8,7 @@ from app.utilits import *
 
 new_questions = Question.new_questions.all()
 hot_questions = Question.hot_questions.all()
-users = User.users.all()
+# users = User.users.all()
 
 
 def index(request):
