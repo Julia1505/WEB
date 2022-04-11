@@ -3,16 +3,15 @@ from django.contrib.auth.models import User
 # Create your models here.
 from django.urls import reverse
 
-
 class TopProfileManager(models.Manager):
     def get_queryset(self):
-        return super().get_queryset().order_by('rating')[:5]
+        return super().get_queryset().order_by('-rating')[:5]
 
 
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='profile')
     avatar = models.ImageField(upload_to="avatars/")
-    rating = models.IntegerField()
+    rating = models.IntegerField(null=True)
 
     users = models.Manager()
     top_users = TopProfileManager()
@@ -21,46 +20,21 @@ class Profile(models.Model):
         return self.user.username
 
     class Meta:
-        ordering = ['rating']
+        ordering = ['-rating']
 
-# class TopUserManager(models.Manager):
-#     def get_queryset(self):
-#         return super().get_queryset().order_by('rating')[:5]
-#
-# class User(models.Model):
-#     nickname = models.CharField(max_length=30)
-#     email = models.EmailField()
-#     password = models.CharField(max_length=50)
-#     avatar = models.ImageField(upload_to="avatars/")
-#     register_date = models.DateField(auto_now_add=True)
-#     rating = models.IntegerField()
-#
-#     users = models.Manager()
-#     top_users = TopUserManager()
-#
-#
-#
-#     def __str__(self):
-#         return self.nickname
-#
-#     class Meta:
-#         ordering = ['nickname']
 
 class TopTagManager(models.Manager):
     def get_queryset(self):
-        return super().get_queryset().order_by('count')[:7]
+        return super().get_queryset().order_by('-count')[:7]
 
 
 class Tag(models.Model):
-    tag = models.CharField(max_length=30)
+    tag = models.CharField(max_length=30, unique=True)
     count = models.IntegerField(null=True)
 
     tags = models.Manager()
     top_tags = TopTagManager()
 
-    # @property
-    # def num_of_questions(self):
-    #     return self.questions.count()
 
     def __str__(self):
         return self.tag
@@ -69,12 +43,12 @@ class Tag(models.Model):
         return reverse('tag', kwargs={'slug': self.tag})
 
     class Meta:
-        ordering = ['count', 'tag']
+        ordering = ['-count', 'tag']
 
 
 class HotQustionManager(models.Manager):
     def get_queryset(self):
-        return super().get_queryset().order_by('rating')
+        return super().get_queryset().order_by('-rating')
 
 
 class Question(models.Model):
@@ -94,8 +68,6 @@ class Question(models.Model):
     def __str__(self):
         return self.title
 
-    # def save(self, *args, **kwargs):
-
     class Meta:
         ordering = ["create_date"]
 
@@ -114,9 +86,4 @@ class Answer(models.Model):
         return self.content
 
     class Meta:
-        ordering = ['rating', 'is_correct']
-
-# class Rating(models.Model):
-#     quesion_rat = models.OneToOneField(Question, on_delete=models.CASCADE)
-#     answer_rat = models.OneToOneField(Answer, on_delete=models.CASCADE)
-#     total_rat = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
+        ordering = ['-rating', 'is_correct']

@@ -5,11 +5,8 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from app.models import *
 from app.utilits import *
 
-
 new_questions = Question.new_questions.all()
 hot_questions = Question.hot_questions.all()
-# users = User.users.all()
-
 
 def index(request):
     paginator = Paginator(new_questions, 2)
@@ -24,7 +21,6 @@ def hot(request):
     return render(request, "hot.html", {"questions":questions})
 
 def question(request, id):
-    # question = Question.new_questions.get(pk=id)
     question = get_object_or_404(Question, pk = id)
     answers = Answer.answers.filter(question = question)
 
@@ -32,7 +28,6 @@ def question(request, id):
     page_num = request.GET.get('page')
     answers = paginator.get_page(page_num)
     return render(request, "question.html", {"question":question, "answers":answers})
-
 
 def ask(request):
     return render(request, "ask.html", { })
@@ -44,7 +39,6 @@ def signup(request):
     return render(request, "signup.html", {"form_sign_up":form_sign_up })
 
 def tag(request, slug):
-    # tag_question = Tag.tags.get(tag=slug).questions.all()  //  без 404
     tag_questions = get_object_or_404(Tag.tags.filter(tag=slug)).questions.all()
 
     paginator = Paginator(tag_questions, 2)
@@ -55,7 +49,5 @@ def tag(request, slug):
 def settings(request):
     return render(request, "settings.html", {"form_settings":form_settings })
 
-
 def pageNotFound(request, exception):
     return HttpResponseNotFound('<h1>Not found!</h1>')
-

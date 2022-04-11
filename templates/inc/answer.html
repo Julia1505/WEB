@@ -2,7 +2,7 @@
 
 <div class="row answer ">
     <div class="col-3 ">
-        <img class="avatar rounded img-thumbnail" src="{{ answer.author.profile.avatar.url}}">
+        <img class="avatar rounded img-thumbnail" {% if  answer.author.profile.avatar%} src="{{ answer.author.profile.avatar.url}} {% else %} src ='#' {% endif %}">
         <div class="btn-group btn-group-sm fs-5">
             {{ answer.rating }}
             <button type="button" class="btn btn-dark fire">&#128293</button>

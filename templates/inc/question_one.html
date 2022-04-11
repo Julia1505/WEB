@@ -1,7 +1,7 @@
 {% load static %}
 <div class="row question ">
     <div class="col-3 ">
-        <img class="avatar rounded img-thumbnail" src="{{ question.author.profile.avatar.url }}" alt="">
+        <img class="avatar rounded img-thumbnail" {% if question.author.profile.avatar%} src="{{ question.author.profile.avatar.url }}" {% else %} src="#" {% endif %} alt="">
         <div class="btn-group btn-group-sm fs-5">
             {{ question.rating }}
             <button type="button" class="btn btn-dark fire">&#128293</button>

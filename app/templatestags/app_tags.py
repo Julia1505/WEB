@@ -3,7 +3,6 @@ from app.models import *
 
 register = template.Library()
 
-
 @register.simple_tag()
 def get_top_users():
     return Profile.top_users.all()
