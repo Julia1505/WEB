@@ -1,5 +1,5 @@
 from django.core.management.base import BaseCommand
-from app.models import Profile, Question, Answer, Tag
+from app.models import Profile, Question, Answer, Tag, Like
 from django.contrib.auth.models import User
 
 import requests
@@ -12,10 +12,11 @@ class Command(BaseCommand):
     RANDOM_TEXT_APY = 'https://randommer.io/api/Text/LoremIpsum'
     RANDOM_NAME_API = 'https://randommer.io/api/Name'
 
-    user_numbers = 1000
-    questions_numbers = 10000
-    answers_numbers = 100000
-    tags_numbers = 1000
+    user_numbers = 10000
+    questions_numbers = 100000
+    answers_numbers = 1000000
+    tags_numbers = 10000
+    likes_number = 2000000
 
     avatars_set = ['avatars/жираф_VRB7DGE.jpg', 'avatars/пингвин_naiSuQI.jpg', 'avatars/пес_JKIswUy.jpg',
                    'avatars/овца_pFS74YT.jpeg','avatars/кот_KMdPgLD.jpeg']
@@ -49,6 +50,7 @@ class Command(BaseCommand):
         return rand_string
 
     def create_users_and_ref_profiles(self):
+        count = 0
         used_names =[]
         print(self.text_dataset)
         for i in range(self.user_numbers):
@@ -60,7 +62,8 @@ class Command(BaseCommand):
                 if len(self.names_set) == 0:
                     self.names_set = self.generate_names_set()
                 name_choice = self.names_set.pop()
-
+            count +=1
+            print(count)
             used_names.append(name_choice)
             user = User(username=name_choice, password=random.choice(self.text_dataset), is_staff=False, is_active=True,
                         is_superuser=False, email =  f'{random.choice(self.text_dataset)}@mail.ru')
@@ -71,12 +74,15 @@ class Command(BaseCommand):
     def create_tag(self):
         uses_tag = []
         self.tags_set = []
+        count = 0
         for i in range(self.tags_numbers):
             count_len = random.randrange(3,15,1)
             tag = self.generate_random_string(count_len)
             while tag in uses_tag:
                 tag = self.generate_random_string(count_len)
             uses_tag.append(tag)
+            count += 1
+            print(count)
             self.tags_set.append(Tag(tag=tag))
 
         Tag.tags.bulk_create(self.tags_set)
@@ -96,14 +102,20 @@ class Command(BaseCommand):
             questions_tags.append(Question.tag.throught(tag_id=tag_k_id, question_id=question_id))
         Question.tag.all().bulk_create(questions_tags)
 
+
+
     def create_question(self):
+        count = 0
         for i in range(self.questions_numbers):
             title = self.generate_text(3, 20)
             title = title + '?'
-            content = self.generate_text(20, 70)
-            author = random.choice(User.objects.all())
-            question = Question(title=title, content=content, author=author, rating = random.randint(0,100))
+            content = self.generate_text(20, 250)
+            author_id = random.randint(1, self.user_numbers)
+
+            question = Question(title=title, content=content, author_id = author_id, rating = random.randint(0,100))
             question.save()
+            count += 1
+            print(count)
 
             count_tags = random.randrange(1, 4)
             for k in range(count_tags):
@@ -112,24 +124,39 @@ class Command(BaseCommand):
 
     def create_answer(self):
         answer_set =[]
+        count = 0
         for i in range(self.answers_numbers):
-            content = self.generate_text(30,200)
-            author = random.choice(User.objects.all())
+            content = self.generate_text(30,300)
+            author_id = random.randint(1, self.user_numbers)
             is_correct = random.choice(['True', 'False'])
             rating = random.randint(0,100)
-            question = random.choice(Question.new_questions.all())
-            answer_set.append(Answer(content = content, author = author, is_correct = is_correct, rating = rating,
-                            question = question))
+            question_id = random.randint(1, self.questions_numbers)
+            count += 1
+            print(count)
+            answer_set.append(Answer(content = content, author_id = author_id, is_correct = is_correct, rating = rating,
+                            question_id = question_id))
 
         Answer.answers.all().bulk_create(answer_set)
 
+    def create_likes(self):
+        likes_set = []
+        for i in range(self.likes_number):
+            question_id = random.randint(1,self.questions_numbers)
+
+            author_id = random.randint(1, self.user_numbers)
+            likes_set.append(Like(author_id = author_id, question_id = question_id))
+        Like.likes.all().bulk_create(likes_set)
+
     def handle(self, *args, **options):
-        self.create_users_and_ref_profiles()
+        # self.create_users_and_ref_profiles()
         self.stdout.write(self.style.SUCCESS('Users and profiles created'))
-        self.create_tag()
+        # self.create_tag()
         self.stdout.write(self.style.SUCCESS('Tags created'))
-        self.create_question()
+        # self.create_question()
         self.stdout.write(self.style.SUCCESS('Questions created'))
         self.create_answer()
         self.stdout.write(self.style.SUCCESS('Answers created'))
+        self.create_likes()
+        self.stdout.write(self.style.SUCCESS('Likes created'))
+
 

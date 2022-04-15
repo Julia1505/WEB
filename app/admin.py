@@ -20,13 +20,13 @@ class AnswerAdmin(admin.ModelAdmin):
     list_editable = ('is_correct',)
 
 class TagAdmin(admin.ModelAdmin):
-    list_display = ('id', 'tag', 'count')
+    list_display = ('id', 'tag')
     list_display_links = ('id', 'tag')
-    list_filter = ('tag', 'count')
+    list_filter = ('tag',)
     search_fields = ('id', 'tag')
 
 admin.site.register(Profile)
 admin.site.register(Question, QuestionAdmin)
 admin.site.register(Answer, AnswerAdmin)
 admin.site.register(Tag, TagAdmin)
-
+admin.site.register(Like)

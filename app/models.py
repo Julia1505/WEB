@@ -1,6 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
-# Create your models here.
+from django.db.models import Count
 from django.urls import reverse
 
 class TopProfileManager(models.Manager):
@@ -25,12 +25,11 @@ class Profile(models.Model):
 
 class TopTagManager(models.Manager):
     def get_queryset(self):
-        return super().get_queryset().order_by('-count')[:7]
+        return super().get_queryset().annotate(num_quest = Count('questions')).order_by('-num_quest')[:7]
 
 
 class Tag(models.Model):
     tag = models.CharField(max_length=30, unique=True)
-    count = models.IntegerField(null=True)
 
     tags = models.Manager()
     top_tags = TopTagManager()
@@ -43,12 +42,12 @@ class Tag(models.Model):
         return reverse('tag', kwargs={'slug': self.tag})
 
     class Meta:
-        ordering = ['-count', 'tag']
+        ordering = ['tag']
 
 
 class HotQustionManager(models.Manager):
     def get_queryset(self):
-        return super().get_queryset().order_by('-rating')
+        return super().get_queryset().annotate(num_likes=Count('likes')).order_by('-num_likes')
 
 
 class Question(models.Model):
@@ -87,3 +86,27 @@ class Answer(models.Model):
 
     class Meta:
         ordering = ['-rating', 'is_correct']
+
+
+
+class LikeManager(models.Manager):
+    def count_likes(self, question_id):
+        return super().get_queryset().filter(question_pk=question_id).count()
+
+
+class Like(models.Model):
+    author = models.ForeignKey(User, on_delete=models.CASCADE)
+    question = models.ForeignKey(Question, on_delete=models.CASCADE, related_name = 'likes')
+
+    likes = LikeManager()
+
+class LikeAnswerManager(models.Manager):
+    def count_likes(self, answer_id):
+        return super().get_queryset().filter(answer_pk=answer_id).count()
+
+
+class LikeAnswer(models.Model):
+    author = models.ForeignKey(User, on_delete= models.CASCADE)
+    answer = models.ForeignKey(Answer, on_delete=models.CASCADE, related_name='likes')
+
+

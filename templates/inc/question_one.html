@@ -3,19 +3,19 @@
     <div class="col-3 ">
         <img class="avatar rounded img-thumbnail" {% if question.author.profile.avatar%} src="{{ question.author.profile.avatar.url }}" {% else %} src="#" {% endif %} alt="">
         <div class="btn-group btn-group-sm fs-5">
-            {{ question.rating }}
+            {{ question.likes.count }}
             <button type="button" class="btn btn-dark fire">&#128293</button>
             <button type="button" class="btn btn-light ">&#128169</button>
         </div>
     </div>
-    <div class="col-9">
+    <div class="col-9 ">
         <a href="{{ question.get_absolute_url }}" class="fs-2">
             <h2>{{ question.title }}</h2>
         </a>
         {% if full == 'true' %}
-            <div>{{ question.content| linebreaks }}</div>
+            <div class="overflow-hidden">{{ question.content| linebreaks }}</div>
         {% else %}
-            <div>{{ question.content| linebreaks| truncatewords:40 }}</div>
+            <div class="overflow-hidden">{{ question.content| linebreaks| truncatewords:40 }}</div>
         {% endif %}
         <br>
         <button type="button" class="btn btn-warning mx-5">
