@@ -105,8 +105,13 @@ class LikeAnswerManager(models.Manager):
         return super().get_queryset().filter(answer_pk=answer_id).count()
 
 
+
+
+
 class LikeAnswer(models.Model):
     author = models.ForeignKey(User, on_delete= models.CASCADE)
     answer = models.ForeignKey(Answer, on_delete=models.CASCADE, related_name='likes')
+
+    likes = LikeAnswerManager()
 
 

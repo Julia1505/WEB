@@ -4,7 +4,7 @@
     <div class="col-3 ">
         <img class="avatar rounded img-thumbnail" {% if  answer.author.profile.avatar%} src="{{ answer.author.profile.avatar.url}} {% else %} src ='#' {% endif %}">
         <div class="btn-group btn-group-sm fs-5">
-            {{ answer.rating }}
+            {{ answer.likes.count }}
             <button type="button" class="btn btn-dark fire">&#128293</button>
             <button type="button" class="btn btn-light ">&#128169</button>
         </div>

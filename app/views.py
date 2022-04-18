@@ -20,7 +20,7 @@ def index(request):
     return render(request, "index.html", {"questions":questions})
 
 def hot(request):
-    hot_questions = Question.hot_questions.all();
+    hot_questions = Question.hot_questions.all()
     questions = paginate(hot_questions, request.GET.get('page'), 20)
     return render(request, "hot.html", {"questions":questions})
 

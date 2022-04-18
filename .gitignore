@@ -1,6 +1,9 @@
 venv/
 #db.sqlite3
 *.pyc
+.idea/
+app/management/commands/faker_gen.py
+
 
 #app/migrations/*
 #media/*

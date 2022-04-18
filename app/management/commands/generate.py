@@ -1,5 +1,6 @@
+
 from django.core.management.base import BaseCommand
-from app.models import Profile, Question, Answer, Tag, Like
+from app.models import Profile, Question, Answer, Tag, Like, LikeAnswer
 from django.contrib.auth.models import User
 
 import requests
@@ -12,11 +13,12 @@ class Command(BaseCommand):
     RANDOM_TEXT_APY = 'https://randommer.io/api/Text/LoremIpsum'
     RANDOM_NAME_API = 'https://randommer.io/api/Name'
 
-    user_numbers = 10000
-    questions_numbers = 100000
-    answers_numbers = 1000000
-    tags_numbers = 10000
-    likes_number = 2000000
+    SCALE = 1000
+    user_numbers = 10000 //SCALE
+    questions_numbers = 100000//SCALE
+    answers_numbers = 1000000//SCALE
+    tags_numbers = 10000//SCALE
+    likes_number = 2000000//SCALE
 
     avatars_set = ['avatars/жираф_VRB7DGE.jpg', 'avatars/пингвин_naiSuQI.jpg', 'avatars/пес_JKIswUy.jpg',
                    'avatars/овца_pFS74YT.jpeg','avatars/кот_KMdPgLD.jpeg']
@@ -147,16 +149,27 @@ class Command(BaseCommand):
             likes_set.append(Like(author_id = author_id, question_id = question_id))
         Like.likes.all().bulk_create(likes_set)
 
+    def create_likes_answer(self):
+        likes_set = []
+        for i in range(self.likes_number):
+            answer_id = random.randint(1,self.answers_numbers)
+
+            author_id = random.randint(1, self.user_numbers)
+            likes_set.append(LikeAnswer(author_id = author_id, answer_id = answer_id))
+        LikeAnswer.likes.all().bulk_create(likes_set)
+
     def handle(self, *args, **options):
-        # self.create_users_and_ref_profiles()
+        self.create_users_and_ref_profiles()
         self.stdout.write(self.style.SUCCESS('Users and profiles created'))
-        # self.create_tag()
+        self.create_tag()
         self.stdout.write(self.style.SUCCESS('Tags created'))
-        # self.create_question()
+        self.create_question()
         self.stdout.write(self.style.SUCCESS('Questions created'))
         self.create_answer()
         self.stdout.write(self.style.SUCCESS('Answers created'))
         self.create_likes()
         self.stdout.write(self.style.SUCCESS('Likes created'))
+        self.create_likes_answer()
+        self.stdout.write(self.style.SUCCESS('Likes answer created'))
 
 
