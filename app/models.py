@@ -56,7 +56,7 @@ class Question(models.Model):
     author = models.ForeignKey(User, on_delete=models.CASCADE)
     create_date = models.DateField(auto_now_add=True)
     tag = models.ManyToManyField(Tag, related_name='questions')
-    rating = models.IntegerField()
+    # rating = models.IntegerField()
 
     new_questions = models.Manager()
     hot_questions = HotQustionManager()
@@ -76,7 +76,7 @@ class Answer(models.Model):
     author = models.ForeignKey(User, on_delete=models.CASCADE)
     date_create = models.DateField(auto_now_add=True)
     is_correct = models.BooleanField(default=False)
-    rating = models.IntegerField()
+    # rating = models.IntegerField()
     question = models.ForeignKey(Question, on_delete=models.CASCADE, null=True, related_name='answers')
 
     answers = models.Manager()
@@ -85,7 +85,7 @@ class Answer(models.Model):
         return self.content
 
     class Meta:
-        ordering = ['-rating', 'is_correct']
+        ordering = ['-is_correct']
 
 
 
@@ -103,8 +103,6 @@ class Like(models.Model):
 class LikeAnswerManager(models.Manager):
     def count_likes(self, answer_id):
         return super().get_queryset().filter(answer_pk=answer_id).count()
-
-
 
 
 

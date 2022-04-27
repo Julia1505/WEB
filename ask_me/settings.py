@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'app',
+    'bootstrap4'
     # 'users.apps.UsersConfig',
 ]
 
@@ -79,10 +80,22 @@ WSGI_APPLICATION = 'ask_me.wsgi.application'
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
 
 DATABASES = {
+    # 'default': {
+    #     'ENGINE': 'django.db.backends.sqlite3',
+    #     'NAME': BASE_DIR / 'db.sqlite3',
+    # }
+
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
+            'ENGINE': 'django.db.backends.mysql',
+            'NAME': 'web_project',
+            'USER': 'django',
+            'PASSWORD': '1234567890',
+            'HOST': '127.0.0.1',
+            'PORT': '3306',
+            'OPTIONS': {
+               'init_command': 'SET default_storage_engine=INNODB',
+            }
+        }
 }
 
 # Password validation
@@ -132,5 +145,4 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
 
 
-# GDAL_LIBRARY_PATH = '/opt/homebrew/opt/gdal/lib/libgdal.dylib'
-# GEOS_LIBRARY_PATH = '/opt/homebrew/opt/geos/lib/libgeos_c.dylib'
+

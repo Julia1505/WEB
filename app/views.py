@@ -1,7 +1,9 @@
+from django.contrib import auth
 from django.http import HttpResponseNotFound
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
+from app.forms import *
 from app.models import *
 from app.utilits import *
 
@@ -35,7 +37,17 @@ def ask(request):
     return render(request, "ask.html", { })
 
 def login(request):
-    return render(request, "login.html", {"form_login":form_login })
+    print(request.POST)
+    if request.method == 'GET':
+        form = LoginForm()
+    elif request.method == 'POST':
+        user_form = LoginForm(data = request.POST)
+        if user_form.is_valid():
+            user = auth.authenticate(request, **user_form.cleaned_data)
+            if user:
+                return redirect(reverse('home'))
+
+    return render(request, "login.html", {"form_login":form_login, "form":form })
 
 def signup(request):
     return render(request, "signup.html", {"form_sign_up":form_sign_up })

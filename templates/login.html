@@ -1,4 +1,5 @@
 {% extends "inc/base.html" %}
+{% load bootstrap4 %}
 {% load static %}
 
 {% block userblock %}
@@ -11,8 +12,9 @@
         <div class="alert alert-danger wrong-pas">
             <strong>WOW! </strong> Wrong password!
         </div>
-        <form action="/action_page.php" class="was-validated mb-5 ">
-            {% csrf_token %}
+        <form action="/login/" class="was-validated mb-5" method="post">
+{#            {% csrf_token %}#}
+{#            {% bootstrap_form form %}#}
             {% for form in form_login %}
                 <div class="mb-3 mt-3">
                 <label for="{{ form.for_id }}" class="form-label">{{ form.Name }}:</label>
@@ -23,9 +25,9 @@
                 <div class="invalid-feedback">{{ form.invalid}}</div>
             </div>
             {% endfor %}
-
+{##}
             <button type="submit" class="btn btn-warning me-3">Log in!</button>
-            <button type="submit" class="btn btn-outline-warning">Create new account</button>
         </form>
+        <button type="submit" class="btn btn-outline-warning">Create new account</button>
     </div>
 {% endblock content %}
