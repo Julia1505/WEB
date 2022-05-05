@@ -1,10 +1,6 @@
 {% extends "inc/base.html" %}
 {% load static %}
 
-{% block userblock %}
-    {% include "inc/authorized.html" %}
-{% endblock userblock %}
-
 {% block content %}
     <p class="fs-1 text-center">New questions <a class="fs-3 hot-q" href="{% url "hot" %}"> Hot questions</a></p>
 

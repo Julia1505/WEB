@@ -1,9 +1,6 @@
 {% extends "inc/base.html" %}
 {% load static %}
 
-{% block userblock %}
-    {% include "inc/authorized.html" %}
-{% endblock userblock %}
 
 {% block content %}
     {% with 'true' as full %}
@@ -21,13 +18,12 @@
 
     <br>
     <hr>
-    <form action="/action_page.php">
-
+    <form action="/question/{{ question.id }}/" method="post">
+        {% csrf_token %}
         <div class="mb-3 mt-5 new_answer">
-            <textarea class="form-control " rows="7" id="text" name="text"></textarea>
+            {{ form }}
         </div>
         <button type="submit" class="btn btn-info answ_but">Answer!!!</button>
-
     </form>
 
 {% endblock content %}

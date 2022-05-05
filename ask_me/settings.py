@@ -37,9 +37,19 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'app',
-    'bootstrap4'
+    'bootstrap4',
+    
+    # 'haystack',
     # 'users.apps.UsersConfig',
 ]
+
+# HAYSTACK_CONNECTIONS = {
+#     'default': {
+#         'ENGINE': 'haystack.backends.elasticsearch7_backend.Elasticsearch7SearchEngine',
+#         'URL': 'http://127.0.0.1:9200/',
+#         'INDEX_NAME': 'haystack',
+#     },
+# }
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',

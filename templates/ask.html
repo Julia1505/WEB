@@ -1,30 +1,22 @@
 {% extends "inc/base.html" %}
 {% load static %}
 
-{% block userblock %}
-    {% include "inc/authorized.html"%}
-{% endblock userblock %}
 
 {% block content %}
     <div class="new_q">
         <p class="fs-2">New Question</p>
-        <form action="/action_page.php">
-            <div class="mb-3 mt-3">
-                <label for="title" class="form-label">Title:</label>
-                <input type="title" class="form-control line_new_q" id="title" placeholder="Question" name="title"
-                       maxlength="200">
-            </div>
-            <div class="mb-3 mt-3">
-                <label for="text" class="form-label">Text:</label>
-                <textarea class="form-control line_new_q " rows="5" id="text" name="text"></textarea>
-            </div>
-            <div class="mb-4">
-                <label for="tags" class="form-label">Tags:</label>
-                <input type="tags" class="form-control line_new_q" id="tags" placeholder="Tags"
-                       name="tags">
-            </div>
-            <button type="submit" class="btn btn-info">ASK!!!</button>
 
+        <form action="/ask/" method="post" >
+        {% csrf_token %}
+            {% for field in form %}
+                <div class="mb-3 mt-3">
+                    <label for="{{ field.id_for_label }}" class="form-label">
+                        {{ field.label }}:
+                    </label>
+                    {{ field }}
+                </div>
+            {% endfor %}
+            <button type="submit" class="btn btn-info">ASK!!!</button>
         </form>
 
     </div>

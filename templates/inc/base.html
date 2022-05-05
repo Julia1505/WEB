@@ -18,12 +18,16 @@
                 <img class="bi me-2" width="36" alt="icon" height="45" src="{% static "img/quest_nav.svg"%}">
                 <span class="fs-3">Ask_me</span>
             </a>
-            <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3 mx-5">
-                <input type="search" class="form-control bg-dark text-warning" placeholder="Search..."
+            <form action="" method="get" class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3 mx-5">
+                <input  type="search" autocomplete="off" name="search" class="form-control bg-dark text-warning" placeholder="Search..."
                        aria-label="Search">
             </form>
-            {% block userblock %}
-            {% endblock userblock %}
+            {% if request.user.is_authenticated %}
+                {% include 'inc/authorized.html' %}
+            {% else %}
+                {% include 'inc/unauthorized.html' %}
+            {% endif %}
+
 
         </div>
 
