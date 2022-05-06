@@ -9,11 +9,11 @@
                 {% if message.tag == 'error' %}
                     <div class="alert alert-danger wrong-pas">
                         <strong>WOW! </strong>
-                        {{message}}
+                        {{ message }}
                     </div>
                 {% else %}
                     <div class="alert alert-{{ message.tag }} wrong-pas">
-                        {{message}}
+                        {{ message }}
                     </div>
                 {% endif %}
             {% endfor %}
@@ -22,71 +22,35 @@
 
         {% for error in form.non_field_errors %}
             <div class="alert alert-danger wrong-pas">
-                {{ error}}
+                {{ error }}
             </div>
         {% endfor %}
-{##}
-{#        <form action="" class="was-validated m b-5 " method="post">#}
-{#            {% csrf_token %}#}
-{#            {% for field in form %}#}
-{#                <div class="mb-3 mt-3">#}
-{#                    {% if field.errors %}#}
-{#                        <p>{{ field.error }}</p>#}
-{#                    {% endif %}#}
-{#                    <label class="form-label">{{ field.label }}:</label>#}
-{#                    {{field}}#}
-{#                </div>#}
-{#                {% if field == image_field %}#}
-{#                    <div class="mb-4 mt-3">#}
-{#                    <label  class="form-label">Upload:</label>#}
-{#                    <br>#}
-{#                    <button type="button" class="btn btn-outline-dark "><label for="formFileSm" class="form-label">Upload#}
-{#                        your avatar &#x1F47B</label></button>#}
-{#                    <input class="form-control form-control-sm log_in" id="formFileSm" type="file" style="display: none">#}
-{#                {% endif %}#}
-{#            </div>#}
-{#            {% endfor %}#}
 
-            <div class="mb-4 mt-3">
-                <label for="formFileSm" class="form-label">Upload:</label>
-                <br>
-                <button type="button" class="btn btn-outline-dark "><label for="formFileSm" class="form-label">Upload
-                    your avatar &#x1F47B</label></button>
-                <input class="form-control form-control-sm log_in" id="formFileSm" type="file" style="display: none">
-
-            </div>
-
-            <button type="submit" class="btn btn-info me-3">Register!</button>
-
-        </form>
-
-
-
-        <div class="alert alert-danger wrong-pas">
-            <strong>WOW! </strong> Wrong password!
-        </div>
-        <form action="" class="was-validated mb-5 ">
+        <form action="." class="was-validated m b-5 " method="post" enctype="multipart/form-data">
             {% csrf_token %}
-            {% for form in form_sign_up %}
+            {% for field in user_form %}
                 <div class="mb-3 mt-3">
-                    <label for="{{ form.for_id }}" class="form-label">{{ form.Name }}:</label>
-                    <input type="{{ form.type }}" maxlength="20" class="form-control log_in " autocomplete="off" id="{{ form.for_id }}"
-                           placeholder="{{ form.placeholder}}" name="{{ form.name }}"
-                           required>
+                    {% if field.errors %}
+                        <p>{{ field.error }}</p>
+                    {% endif %}
+                    <label for="{{ field.id_for_label }}" class="form-label">{{ field.label }}:</label>
+                    {{ field }}
                 </div>
             {% endfor %}
-
-            <div class="mb-4 mt-3">
-                <label for="formFileSm" class="form-label">Upload:</label>
-                <br>
-                <button type="button" class="btn btn-outline-dark "><label for="formFileSm" class="form-label">Upload
-                    your avatar &#x1F47B</label></button>
-                <input class="form-control form-control-sm log_in" id="formFileSm" type="file" style="display: none">
-
-            </div>
+{#            {% for field in profile_form %}#}
+{#                <div class="mb-4 mt-3">#}
+{#                    <label for="{{ field.id_for_label }}" class="form-label">Upload:</label>#}
+{#                    <br>#}
+{#                    <button type="button" class="btn btn-outline-dark "><label for="{{ field.id_for_label }}" class="form-label">Upload#}
+{#                        your avatar &#x1F47B</label></button>#}
+{#                        {{ field }}#}
+{#                </div>#}
+{#            {% endfor %}#}
 
             <button type="submit" class="btn btn-info me-3">Register!</button>
 
         </form>
+
+
     </div>
 {% endblock content %}

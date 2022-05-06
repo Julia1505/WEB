@@ -7,9 +7,9 @@
         {% include "inc/question_one.html" %}
     {% endwith %}
     {% for answer in answers %}
-            {% include "inc/answer.html" %}
+        {% include "inc/answer.html" %}
     {% empty %}
-        <div class=" fs-5"> No one has answered yet:( </div>
+        <div class=" fs-5"> No one has answered yet:(</div>
     {% endfor %}
 
     {% with answers as page_obj %}
@@ -20,9 +20,15 @@
     <hr>
     <form action="/question/{{ question.id }}/" method="post">
         {% csrf_token %}
-        <div class="mb-3 mt-5 new_answer">
-            {{ form }}
-        </div>
+        {% for field in form %}
+            <div class="mb-3 mt-5 new_answer">
+                <label for="{{ field.id_for_label }}" class="form-label">
+                    {{ field.label }}:
+                </label>
+                <br>
+                {{ field }}
+            </div>
+        {% endfor %}
         <button type="submit" class="btn btn-info answ_but">Answer!!!</button>
     </form>
 

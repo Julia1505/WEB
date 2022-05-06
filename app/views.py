@@ -71,7 +71,6 @@ def ask(request):
     return render(request, "ask.html", {'form':form, })
 
 def login(request):
-    # print(request.POST)
     if request.method == 'POST':
         form = LoginForm(request.POST)
         if form.is_valid():
@@ -93,19 +92,28 @@ def logout(request):
 
 def signup(request):
     if request.method == 'POST':
-        form = RegisterForm(request.POST)
-        if form.is_valid():
-            new_user = form.save(commit=False)
-            new_user.set_password(form.cleaned_data['password'])
+        user_form = UserForm(data= request.POST)
+        # profile_form = ProfileFrom(data={request.POST, request.FILES})
+        if user_form.is_valid():
+            new_user = user_form.save(commit=False)
+            new_user.set_password(user_form.cleaned_data['password'])
             new_user.save()
+            profile = Profile.objects.create(user=new_user)
 
-            login(request)   # чет не так
+            print(user_form.cleaned_data)
+            # login(request)   # чет не так
+            print("sucess")
+            # return request
             return redirect(reverse('home'))
+        else:
+            print("bad")
 
+    else:
+        user_form = UserForm()
+        # profile_form=ProfileFrom()
+    # return render(request, 'signup.html', {'user_form':user_form, 'profile_form':profile_form})
 
-    elif request.method == 'GET':
-        form = RegisterForm()
-    return render(request, 'signup.html', {'form':form})
+    return render(request, 'signup.html', {'user_form':user_form,})
 
 
 
