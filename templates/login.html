@@ -22,7 +22,7 @@
         {% endif %}
 
         {% for error in form.non_field_errors %}
-            <div> {{ error }}</div>
+            <div class="alert alert-danger wrong-pas"> <strong>WOW! </strong>{{ error }}</div>
         {% endfor %}
 
         <form action="/login/" class="was-validated mb-5" method="post">
@@ -32,10 +32,7 @@
                     {% if field.errors %} {{ field.error }} {% endif %}
                     <label for="{{ field.id_for_label }}" class="form-label">{{ field.label }}:</label>
                     {{ field }}
-{#                    <input type="{{ field.widget_type }}" maxlength="20" class="form-control log_in " autocomplete="off"#}
-{#                           id="{{ field_id }}"#}
-{#                           placeholder="{{ field.placeholder }}" name="{{ field.name }}"#}
-{#                           required>#}
+
                 </div>
             {% endfor %}
             <div class="valid-feedback">Good :)</div>
@@ -45,22 +42,6 @@
         </form>
 
 
-        {#        <form action="/login/" class="was-validated mb-5" method="post">#}
-        {#            {% csrf_token %}#}
-        {#            {% bootstrap_form form %}#}
-        {#            {% for form in form_login %}#}
-        {#                <div class="mb-3 mt-3">#}
-        {#                <label for="{{ form.for_id }}" class="form-label">{{ form.Name }}:</label>#}
-        {#                <input type="{{ form.type }}" maxlength="20" class="form-control log_in " autocomplete="off" id="{{ form.for_id }}"#}
-        {#                       placeholder="{{ form.placeholder}}" name="{{ form.name }}"#}
-        {#                       required>#}
-        {#                <div class="valid-feedback">Good :)</div>#}
-        {#                <div class="invalid-feedback">{{ form.invalid}}</div>#}
-        {#            </div>#}
-        {#            {% endfor %}#}
-        {##}
-        {#            <button type="submit" class="btn btn-warning me-3">Log in!</button>#}
-        {#        </form>#}
         <button type="submit" class="btn btn-outline-warning">Create new account</button>
     </div>
 {% endblock content %}

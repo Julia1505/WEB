@@ -10,7 +10,7 @@ class TopProfileManager(models.Manager):
 
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='profile')
-    avatar = models.ImageField(upload_to="avatars/")
+    avatar = models.ImageField(upload_to="avatars/", default='def.jpeg', blank=True, null=True)
     rating = models.IntegerField(null=True)
 
     users = models.Manager()

@@ -1,9 +1,10 @@
 from django.contrib import auth
 from django.contrib.auth.decorators import login_required
+from django.forms import model_to_dict
 from django.http import HttpResponseNotFound, HttpResponseRedirect, HttpResponse
 from django.shortcuts import render, get_object_or_404, redirect
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-# from  haystack.query import SearchQuerySet
+from django.views.decorators.http import require_http_methods
 
 from app.forms import *
 from app.models import *
@@ -46,7 +47,6 @@ def question(request, id):
             return redirect(url)
     else:
         form = AnswerForm(request.user, id)
-    print(id, request.POST, 'ggg')
 
     question = get_object_or_404(Question, pk = id)
 
@@ -77,9 +77,11 @@ def login(request):
             user = auth.authenticate(request, **form.cleaned_data)
             if user:
                 print(user)
+                auth.login(request, user)
+
                 return redirect(reverse('home'))
             else:
-                return HttpResponse('Bad auth')
+                form.add_error(None, 'Incorrect login or password')
     else:
         form = LoginForm()
 
@@ -87,33 +89,29 @@ def login(request):
 
 @login_required()
 def logout(request):
-    logout(request)
+    auth.logout(request)
     return redirect(reverse('login'))
 
 def signup(request):
     if request.method == 'POST':
-        user_form = UserForm(data= request.POST)
-        # profile_form = ProfileFrom(data={request.POST, request.FILES})
+        user_form = UserForm(request.POST, request.FILES)
         if user_form.is_valid():
             new_user = user_form.save(commit=False)
             new_user.set_password(user_form.cleaned_data['password'])
             new_user.save()
-            profile = Profile.objects.create(user=new_user)
 
-            print(user_form.cleaned_data)
-            # login(request)   # чет не так
-            print("sucess")
-            # return request
+            new_profile = Profile.users.create(user=new_user)
+            new_profile.avatar = user_form.cleaned_data['avatar']
+            new_profile.save()
+            auth.login(request, new_user)
             return redirect(reverse('home'))
         else:
+
             print("bad")
 
     else:
         user_form = UserForm()
-        # profile_form=ProfileFrom()
-    # return render(request, 'signup.html', {'user_form':user_form, 'profile_form':profile_form})
-
-    return render(request, 'signup.html', {'user_form':user_form,})
+    return render(request, 'signup.html', {'user_form':user_form})
 
 
 
@@ -124,8 +122,23 @@ def tag(request, slug):
     return render(request, "tag.html", {"questions":questions, "slug":slug})
 
 @login_required
+@require_http_methods(['GET','POST'])
 def settings(request):
-    return render(request, "settings.html", {"form_settings":form_settings })
+    if request.method == 'POST':
+        initial_data = request.POST
+        instance = request.user
+        user_form = SettingsForm(initial=initial_data, instance = instance, files = request.FILES)
+        if user_form.is_valid():
+            user_form.save()
+
+            return redirect(reverse('home'))
+    else:
+        initial_data = model_to_dict(request.user)
+        initial_data['avatar'] = request.user.profile.avatar
+        user_form = SettingsForm(initial=initial_data)
+
+
+    return render(request, "settings.html", {"user_form":user_form, })
 
 def pageNotFound(request, exception):
     return HttpResponseNotFound('<h1>Not found!</h1>')

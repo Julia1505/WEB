@@ -20,32 +20,37 @@
         {% endif %}
 
 
-        {% for error in form.non_field_errors %}
-            <div class="alert alert-danger wrong-pas">
-                {{ error }}
-            </div>
+        {% for error in user_form.non_field_errors %}
+            <div class="alert alert-danger wrong-pas"><strong>WOW! </strong>{{ error }}</div>
         {% endfor %}
 
         <form action="." class="was-validated m b-5 " method="post" enctype="multipart/form-data">
             {% csrf_token %}
+
+
             {% for field in user_form %}
-                <div class="mb-3 mt-3">
-                    {% if field.errors %}
-                        <p>{{ field.error }}</p>
-                    {% endif %}
-                    <label for="{{ field.id_for_label }}" class="form-label">{{ field.label }}:</label>
-                    {{ field }}
-                </div>
+                {% if field.field.is_fileinput %}
+                    <div class="mb-4 mt-3">
+                        <label for="{{ field.id_for_label }}" class="form-label">Upload:</label>
+                        <br>
+                        <button type="button" class="btn btn-outline-dark "><label for="{{ field.id_for_label }}"
+                                                                                   class="form-label">Upload
+                            your avatar &#x1F47B</label></button>
+                        {{ field }}
+                    </div>
+                {% else %}
+                    <div class="mb-3 mt-3">
+                        {% if field.errors %}
+                            <p>{{ field.error }}</p>
+                        {% endif %}
+                        <label for="{{ field.id_for_label }}" class="form-label">{{ field.label }}:</label>
+                        {{ field }}
+                    </div>
+
+                {% endif %}
+
             {% endfor %}
-{#            {% for field in profile_form %}#}
-{#                <div class="mb-4 mt-3">#}
-{#                    <label for="{{ field.id_for_label }}" class="form-label">Upload:</label>#}
-{#                    <br>#}
-{#                    <button type="button" class="btn btn-outline-dark "><label for="{{ field.id_for_label }}" class="form-label">Upload#}
-{#                        your avatar &#x1F47B</label></button>#}
-{#                        {{ field }}#}
-{#                </div>#}
-{#            {% endfor %}#}
+            <br>
 
             <button type="submit" class="btn btn-info me-3">Register!</button>
 
