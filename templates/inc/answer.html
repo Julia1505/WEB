@@ -5,8 +5,8 @@
         <img class="avatar rounded img-thumbnail" {% if  answer.author.profile.avatar%} src="{{ answer.author.profile.avatar.url}} {% else %} src ='#' {% endif %}">
         <div class="btn-group btn-group-sm fs-5">
             <form>
-            <button type="button" data-id="{{ answer.id }}" class="btn btn-dark button-like-answer">{{ answer.votes.likes.count }}&#128293</button>
-            <button type="button" data-id="{{ answer.id }}" class="btn btn-light button-dislike-answer">{{ answer.votes.dislikes.count }}&#128169</button>
+            <button type="button" data-id="{{ answer.id }}" data-object="answer" data-type="1" class="btn btn-dark button-vote">{{ answer.votes.likes.count }}&#128293</button>
+            <button type="button" data-id="{{ answer.id }}" data-object="answer" data-type="-1" class="btn btn-light button-vote">{{ answer.votes.dislikes.count }}&#128169</button>
             </form>
         </div>
     </div>

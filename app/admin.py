@@ -30,4 +30,4 @@ admin.site.register(Question, QuestionAdmin)
 admin.site.register(Answer, AnswerAdmin)
 admin.site.register(Tag, TagAdmin)
 admin.site.register(Vote)
-admin.site.register(VoteAnswer)
+

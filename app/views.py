@@ -144,75 +144,45 @@ def settings(request):
 @login_required
 @require_POST
 def vote(request):
-    question_id = request.POST['question_id']
     type_vote = request.POST['vote']
+    type_object = request.POST['type_object']
+    object_id = request.POST['object_id']
     user = request.user
-    question = Question.new_questions.get(id = question_id)
-    vote = Vote.objects.filter(user=user, question=question).all()
-    print(question_id, type_vote, user)
-    if not vote:
-        vote = Vote.objects.create(user=user, question=question, type_vote=type_vote)
-        vote.save()
-    else:
+    if type_object == 'question':
         print("tyt")
-        old_vote = vote[0]
-        print(vote)
-        if old_vote.type_vote == int(type_vote):
-            old_vote.delete()
-        elif old_vote.type_vote == -1:
-            old_vote.delete()
-            vote = Vote.objects.create(user=user, question=question, type_vote=1)
+        object = Question.new_questions.get(id=object_id)
+        vote = Question.hot_questions.is_liked(user, object_id)
+    else:
+        object = Answer.answers.get(id=object_id)
+        vote = Answer.answers.is_liked(user, object_id)
+
+    print(vote)
+    if vote:
+        if vote.type_vote == int(type_vote):
+            vote.delete()
+        elif vote.type_vote == -1:
+            vote.delete()
+            vote = Vote.objects.create(user=user, content_object=object, type_vote=1)
             vote.save()
         else:
-            old_vote.delete()
-            vote = Vote.objects.create(user=user, question=question, type_vote=-1)
+            vote.delete()
+            vote = Vote.objects.create(user=user, content_object=object, type_vote=-1)
             vote.save()
+    else:
+        print('net')
+        vote = Vote.objects.create(user=user, content_object=object, type_vote=type_vote)
+        vote.save()
 
-    likes = question.votes.likes().count()
+    likes = object.votes.likes().count()
     print(likes)
-    dislikes = question.votes.dislikes().count()
+    # likes=0
+    # dislikes=0
+    dislikes = object.votes.dislikes().count()
     print(dislikes)
     response_data = {}
     response_data['likes'] = likes
     response_data['dislikes'] = dislikes
     return HttpResponse(json.dumps(response_data),content_type="application/json")
-
-# @login_required
-# @require_POST
-# def vote_answer(request):
-#     answer_id = request.POST['answer_id']
-#     type_vote = request.POST['vote']
-#     user = request.user
-#     answer = Answer.answers.get(id = answer_id)
-#     vote = VoteAnswer.objects.filter(user=user, answer=answer).all()
-#     print(question_id, type_vote, user)
-#     if not vote:
-#         vote = Vote.objects.create(user=user, question=question, type_vote=type_vote)
-#         vote.save()
-#         # print(vote)
-#     else:
-#         print("tyt")
-#         old_vote = vote[0]
-#         print(vote)
-#         if old_vote.type_vote == int(type_vote):
-#             old_vote.delete()
-#         elif old_vote.type_vote == -1:
-#             old_vote.delete()
-#             vote = Vote.objects.create(user=user, question=question, type_vote=1)
-#             vote.save()
-#         else:
-#             old_vote.delete()
-#             vote = Vote.objects.create(user=user, question=question, type_vote=-1)
-#             vote.save()
-#
-#     likes = Vote.objects.likes().count()
-#     print(likes)
-#     dislikes = Vote.objects.dislikes().count()
-#     print(dislikes)
-#     response_data = {}
-#     response_data['likes'] = likes
-#     response_data['dislikes'] = dislikes
-#     return HttpResponse(json.dumps(response_data),content_type="application/json")
 
 
 @login_required

@@ -7,8 +7,8 @@
 
 
             <form>
-                <button type="button" data-id="{{ question.id }}" class="btn btn-dark  button-like">{{ question.votes.likes.count }} &#128293</button>
-                <button type="button" data-id="{{ question.id }}" class="btn btn-light  button-dislike">{{ question.votes.dislikes.count }} &#128169</button>
+                <button type="button" data-id="{{ question.id }}" data-object="question" data-type="1" class="btn btn-dark  button-vote">{{ question.votes.likes.count }} &#128293</button>
+                <button type="button" data-id="{{ question.id }}" data-object="question" data-type="-1" class="btn btn-light  button-vote">{{ question.votes.dislikes.count }} &#128169</button>
             </form>
         </div>
     </div>
