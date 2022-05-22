@@ -27,7 +27,7 @@ $(".correct_answer").on('click', function (ev) {
                 'X-CSRFToken': csrftoken,
                 'Content-type': 'application/x-www-form-urlencoded'
             },
-            body: 'answer_id=' + $this.data('id')
+            body: 'answer_id=' + $this.data('answer-id') +'&question_id=' + $this.data('question-id')
         }
     );
 

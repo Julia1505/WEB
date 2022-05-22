@@ -16,7 +16,7 @@
         <br>
         <button type="button" class="btn btn-primary mx-5">
             Correct
-            <input class="form-check-input mx-2 correct_answer" data-id = '{{ answer.id }}' type="checkbox" name="correct"  {% if answer.is_correct == True %} checked {% endif %}>
+            <input class="form-check-input mx-2 correct_answer" data-question-id="{{ answer.question.id }}" data-answer-id = '{{ answer.id }}' type="checkbox" name="correct"  {% if answer.is_correct == True %} checked {% endif %}>
         </button>
     </div>
 </div>

@@ -190,12 +190,15 @@ def vote(request):
 def correct_answer(request):
     print(request.GET)
     answer_id = request.POST['answer_id']
+    question_id = request.POST['question_id']
     print((answer_id))
     answer = Answer.answers.get(id = answer_id)
-    if answer.is_correct:
-        answer.is_correct = False
-    else:
-        answer.is_correct = True
+    question = Question.new_questions.get(id=question_id)
+    if question.author == request.user:
+        if answer.is_correct:
+            answer.is_correct = False
+        else:
+            answer.is_correct = True
     answer.save()
     print(answer.is_correct)
     return JsonResponse({'is_correct':answer.is_correct})
