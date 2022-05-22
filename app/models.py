@@ -1,6 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
-from django.db.models import Count
+from django.db.models import Count, Sum
 from django.urls import reverse
 
 class TopProfileManager(models.Manager):
@@ -88,28 +88,60 @@ class Answer(models.Model):
         ordering = ['-is_correct']
 
 
+class VoteManager(models.Manager):
 
-class LikeManager(models.Manager):
-    def count_likes(self, question_id):
-        return super().get_queryset().filter(question_pk=question_id).count()
+    def likes(self):
+        return self.get_queryset().filter(type_vote__gt=0).all()
 
+    def dislikes(self):
+        return self.get_queryset().filter(type_vote__lt=0).all()
 
-class Like(models.Model):
-    author = models.ForeignKey(User, on_delete=models.CASCADE)
-    question = models.ForeignKey(Question, on_delete=models.CASCADE, related_name = 'likes')
+    def sum_rating(self):
+        return self.get_queryset().aggregate(Sum('type_vote')).get('type_vote__sum') or 0  #???
 
-    likes = LikeManager()
+class Vote(models.Model):
+    LIKE = 1
+    DISLIKE = -1
+    VOTES = (
+        (DISLIKE, "Dislike"),
+        (LIKE, "Like"),
+    )
 
-class LikeAnswerManager(models.Manager):
-    def count_likes(self, answer_id):
-        return super().get_queryset().filter(answer_pk=answer_id).count()
+    type_vote = models.SmallIntegerField(choices=VOTES)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='votes')
+    question = models.ForeignKey(Question, on_delete=models.CASCADE, related_name='votes')
 
+    objects = VoteManager()
 
+    # def __str__(self):
+    #     return self.type_vote
 
-class LikeAnswer(models.Model):
-    author = models.ForeignKey(User, on_delete= models.CASCADE)
-    answer = models.ForeignKey(Answer, on_delete=models.CASCADE, related_name='likes')
+class VoteAnswerManager(models.Manager):
 
-    likes = LikeAnswerManager()
+    def likes(self):
+        return self.get_queryset().filter(type_vote__gt=0).all()
+
+    def dislikes(self):
+        return self.get_queryset().filter(type_vote__lt=0).all()
+
+    def sum_rating(self):
+        return self.get_queryset().aggregate(Sum('type_vote')).get('type_vote__sum') or 0  #???
+
+class VoteAnswer(models.Model):
+    LIKE = 1
+    DISLIKE = -1
+    VOTES = (
+        (DISLIKE, "Dislike"),
+        (LIKE, "Like"),
+    )
+
+    type_vote = models.SmallIntegerField(choices=VOTES)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='votes_answer')
+    answer = models.ForeignKey(Answer, on_delete=models.CASCADE, related_name='votes_answer')
+
+    objects = VoteManager()
+
+    def __str__(self):
+        return self.type_vote
 
 

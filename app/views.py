@@ -1,10 +1,12 @@
+import json
+
 from django.contrib import auth
 from django.contrib.auth.decorators import login_required
 from django.forms import model_to_dict
-from django.http import HttpResponseNotFound, HttpResponseRedirect, HttpResponse
+from django.http import HttpResponseNotFound, HttpResponseRedirect, HttpResponse, JsonResponse
 from django.shortcuts import render, get_object_or_404, redirect
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-from django.views.decorators.http import require_http_methods
+from django.views.decorators.http import require_http_methods, require_POST
 
 from app.forms import *
 from app.models import *
@@ -40,7 +42,6 @@ def question(request, id):
 
     if request.method == 'POST':
         form = AnswerForm(request.user, id, data=request.POST)
-        print(id,  request.POST, 'ggg')
         if form.is_valid():
             quest = form.save().question
             url = quest
@@ -140,7 +141,98 @@ def settings(request):
 
     return render(request, "settings.html", {"user_form":user_form, })
 
+@login_required
+@require_POST
+def vote(request):
+    question_id = request.POST['question_id']
+    type_vote = request.POST['vote']
+    user = request.user
+    question = Question.new_questions.get(id = question_id)
+    vote = Vote.objects.filter(user=user, question=question).all()
+    print(question_id, type_vote, user)
+    if not vote:
+        vote = Vote.objects.create(user=user, question=question, type_vote=type_vote)
+        vote.save()
+    else:
+        print("tyt")
+        old_vote = vote[0]
+        print(vote)
+        if old_vote.type_vote == int(type_vote):
+            old_vote.delete()
+        elif old_vote.type_vote == -1:
+            old_vote.delete()
+            vote = Vote.objects.create(user=user, question=question, type_vote=1)
+            vote.save()
+        else:
+            old_vote.delete()
+            vote = Vote.objects.create(user=user, question=question, type_vote=-1)
+            vote.save()
+
+    likes = question.votes.likes().count()
+    print(likes)
+    dislikes = question.votes.dislikes().count()
+    print(dislikes)
+    response_data = {}
+    response_data['likes'] = likes
+    response_data['dislikes'] = dislikes
+    return HttpResponse(json.dumps(response_data),content_type="application/json")
+
+# @login_required
+# @require_POST
+# def vote_answer(request):
+#     answer_id = request.POST['answer_id']
+#     type_vote = request.POST['vote']
+#     user = request.user
+#     answer = Answer.answers.get(id = answer_id)
+#     vote = VoteAnswer.objects.filter(user=user, answer=answer).all()
+#     print(question_id, type_vote, user)
+#     if not vote:
+#         vote = Vote.objects.create(user=user, question=question, type_vote=type_vote)
+#         vote.save()
+#         # print(vote)
+#     else:
+#         print("tyt")
+#         old_vote = vote[0]
+#         print(vote)
+#         if old_vote.type_vote == int(type_vote):
+#             old_vote.delete()
+#         elif old_vote.type_vote == -1:
+#             old_vote.delete()
+#             vote = Vote.objects.create(user=user, question=question, type_vote=1)
+#             vote.save()
+#         else:
+#             old_vote.delete()
+#             vote = Vote.objects.create(user=user, question=question, type_vote=-1)
+#             vote.save()
+#
+#     likes = Vote.objects.likes().count()
+#     print(likes)
+#     dislikes = Vote.objects.dislikes().count()
+#     print(dislikes)
+#     response_data = {}
+#     response_data['likes'] = likes
+#     response_data['dislikes'] = dislikes
+#     return HttpResponse(json.dumps(response_data),content_type="application/json")
+
+
+@login_required
+@require_POST
+def correct_answer(request):
+    print(request.GET)
+    answer_id = request.POST['answer_id']
+    print((answer_id))
+    answer = Answer.answers.get(id = answer_id)
+    if answer.is_correct:
+        answer.is_correct = False
+    else:
+        answer.is_correct = True
+    answer.save()
+    print(answer.is_correct)
+    return JsonResponse({'is_correct':answer.is_correct})
+
+
 def pageNotFound(request, exception):
     return HttpResponseNotFound('<h1>Not found!</h1>')
+
 
 

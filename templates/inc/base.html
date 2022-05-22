@@ -5,21 +5,24 @@
 <head>
     <meta charset="utf-8">
     <title>Ask_Me</title>
-    <link rel="icon" href="{% static "img/question-lg.svg"%}">
-    <link href="{%  static "css/bootstrap.min.css"%}" rel="stylesheet">
-    <link href="{% static "css/my.css"%}" rel="stylesheet">
+    <link rel="icon" href="{% static "img/question-lg.svg" %}">
+    <link href="{% static "css/bootstrap.min.css" %}" rel="stylesheet">
+    <link href="{% static "css/my.css" %}" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 </head>
 <body>
 
 <header class="p-3 bg-dark text-white fixed-top">
     <div class="container">
         <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
-            <a href="{% url "home" %}" class="d-flex align-items-center mb-2 mb-lg-0 text-white text-decoration-none me-5">
-                <img class="bi me-2" width="36" alt="icon" height="45" src="{% static "img/quest_nav.svg"%}">
+            <a href="{% url "home" %}"
+               class="d-flex align-items-center mb-2 mb-lg-0 text-white text-decoration-none me-5">
+                <img class="bi me-2" width="36" alt="icon" height="45" src="{% static "img/quest_nav.svg" %}">
                 <span class="fs-3">Ask_me</span>
             </a>
             <form action="" method="get" class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3 mx-5">
-                <input  type="search" autocomplete="off" name="search" class="form-control bg-dark text-warning" placeholder="Search..."
+                <input type="search" autocomplete="off" name="search" class="form-control bg-dark text-warning"
+                       placeholder="Search..."
                        aria-label="Search">
             </form>
             {% if request.user.is_authenticated %}
@@ -46,33 +49,38 @@
                 {% get_top_tags as top_tags %}
                 <div class="position-relative text-center">
                     {% for tag in top_tags %}
-                    <a href="{{ tag.get_absolute_url }}"><button type="button" class="btn opacity {% cycle "btn-primary" "btn-secondary" "btn-success" "btn-danger" "btn-warning" "btn-info" "btn-dark" %} opacity-75 tag"> {{ tag.tag }} </button></a>
+                        <a href="{{ tag.get_absolute_url }}">
+                            <button type="button"
+                                    class="btn opacity {% cycle "btn-primary" "btn-secondary" "btn-success" "btn-danger" "btn-warning" "btn-info" "btn-dark" %} opacity-75 tag"> {{ tag.tag }} </button>
+                        </a>
                     {% endfor %}
                 </div>
                 <hr>
                 <br>
                 <p class="fs-2 text-center">Best members</p>
-                {% get_top_users as top_users%}
+                {% get_top_users as top_users %}
                 <ol class="list-group list-group-numbered text-center order-first">
                     {% for user in top_users %}
-                    <li class="guru list-group-item"><a class="top-member" href="#">{{ user.user.username }}</a></li>
+                        <li class="guru list-group-item"><a class="top-member" href="#">{{ user.user.username }}</a>
+                        </li>
                     {% endfor %}
                 </ol>
 
             </div>
         </div>
     </div>
-
 </main>
 
 <footer class="py-3 my-4">
     <ul class="nav justify-content-center border-bottom pb-3 mb-3">
-        <li class="nav-item"><a href="{% url "home"%}" class="nav-link px-2 text-muted">Home</a></li>
-        <li class="nav-item"><a href="{% url "ask"%}" class="nav-link px-2 text-muted">Ask</a></li>
-        <li class="nav-item"><a href="{% url "settings"%}" class="nav-link px-2 text-muted">Cabinet</a></li>
+        <li class="nav-item"><a href="{% url "home" %}" class="nav-link px-2 text-muted">Home</a></li>
+        <li class="nav-item"><a href="{% url "ask" %}" class="nav-link px-2 text-muted">Ask</a></li>
+        <li class="nav-item"><a href="{% url "settings" %}" class="nav-link px-2 text-muted">Cabinet</a></li>
     </ul>
     <p class="text-center text-muted">© 2022 Company, Inc</p>
 </footer>
-<script src="{% static "js/bootstrap.bundle.min.js"%}"></script>
+<script src="{% static "js/bootstrap.bundle.min.js" %}"></script>
+<script src="{% static 'js/my_script.js' %}"></script>
+
 </body>
 </html>

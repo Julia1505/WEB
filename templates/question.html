@@ -17,6 +17,8 @@
     {% endwith %}
 
     <br>
+    {% if request.user.is_authenticated %}
+
     <hr>
     <form action="/question/{{ question.id }}/" method="post">
         {% csrf_token %}
@@ -31,5 +33,7 @@
         {% endfor %}
         <button type="submit" class="btn btn-info answ_but">Answer!!!</button>
     </form>
+
+    {% endif %}
 
 {% endblock content %}

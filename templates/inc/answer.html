@@ -4,9 +4,10 @@
     <div class="col-3 ">
         <img class="avatar rounded img-thumbnail" {% if  answer.author.profile.avatar%} src="{{ answer.author.profile.avatar.url}} {% else %} src ='#' {% endif %}">
         <div class="btn-group btn-group-sm fs-5">
-            {{ answer.likes.count }}
-            <button type="button" class="btn btn-dark fire">&#128293</button>
-            <button type="button" class="btn btn-light ">&#128169</button>
+            <form>
+            <button type="button" data-id="{{ answer.id }}" class="btn btn-dark button-like-answer">{{ answer.votes.likes.count }}&#128293</button>
+            <button type="button" data-id="{{ answer.id }}" class="btn btn-light button-dislike-answer">{{ answer.votes.dislikes.count }}&#128169</button>
+            </form>
         </div>
     </div>
     <div class="col-9">
@@ -15,7 +16,7 @@
         <br>
         <button type="button" class="btn btn-primary mx-5">
             Correct
-            <input class="form-check-input mx-2" type="checkbox" name="correct"  {% if answer.is_correct == True %} checked {% endif %}>
+            <input class="form-check-input mx-2 correct_answer" data-id = '{{ answer.id }}' type="checkbox" name="correct"  {% if answer.is_correct == True %} checked {% endif %}>
         </button>
     </div>
 </div>
